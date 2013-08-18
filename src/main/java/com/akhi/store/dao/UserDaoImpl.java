@@ -1,5 +1,9 @@
 package com.akhi.store.dao;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.List;
 
 import javax.sql.DataSource;
@@ -9,7 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.akhi.store.general.User;
-import com.akhi.store.service.UserServiceImplDao;
 
 @Repository
 public class UserDaoImpl implements UserDao {
@@ -52,8 +55,56 @@ public class UserDaoImpl implements UserDao {
 
 	@Override
 	public User findByIdAndPassword(String id, String password) {
-		log.info(">>>>>>>>>>>>>>>>>>>>>>>>UserDaoImpl findByIdAndPassword" + dataSource);
-		return null;
+		log.info(">>>>>>>>>>>>>>>>>>>>>>>>UserDaoImpl findByIdAndPassword"
+				+ dataSource);
+		User result = null;
+		ResultSet rs;
+		Connection conn = null;
+		try {
+			conn = dataSource.getConnection();
+			String sql = "SELECT * from Users where userid = '" + id
+					+ "' and password = '" + password + "'";
+			log.info("Executing SQL " + sql);
+			PreparedStatement ps = conn.prepareStatement(sql);
+			rs = ps.executeQuery();
+			if (rs == null) {
+				log.warn("Nothing found");
+			} else {
+				String empid;
+				try {
+					while (rs.next()) {
+						id = rs.getString("USERID");
+						password = rs.getString("PASSWORD");
+						empid = rs.getString("EMP_ID");
+
+						log.info("userid : " + id);
+						result = new User(id, password, empid,
+								rs.getString("FirstName"),
+								rs.getString("LastName"),
+								rs.getString("Address"), rs.getString("City"));
+					}
+					log.info("Result :::::::::::::" + result);
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+
+			}
+			ps.close();
+
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+
+		} finally {
+			if (conn != null) {
+				try {
+					conn.close();
+				} catch (SQLException e) {
+				}
+			}
+		}
+
+		return result;
 	}
 
 	public DataSource getDataSource() {

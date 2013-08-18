@@ -10,7 +10,7 @@
 <style type="text/css">
 .errors {
 	background-color: #FFCCCC;
-	border: 1px solid #CC0000;
+
 	width: 400px;
 	margin-bottom: 8px;
 }
@@ -31,7 +31,9 @@
 <body>
 	<div align="center" id="login">
 		<h2>User Login Here</h2>
-
+		<c:if test="${error != null}">
+			<p class="errors"> ${error }</p>
+		</c:if>
 		<form:form method="POST" commandName="customer">
 			<form:errors path="*" cssClass="errorblock" element="div" />
 

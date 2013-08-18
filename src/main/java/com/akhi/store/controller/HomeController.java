@@ -34,12 +34,22 @@ public class HomeController {
 	@Autowired
 	private UserValidator validator;
 
-	@RequestMapping(method = RequestMethod.GET)
+	@RequestMapping(value = { "/", "/home" }, method = RequestMethod.GET)
 	public String home(ModelMap model) {
 		log.info("HomeController home");
 		User user = new User();
 		model.addAttribute("customer", user);
 		return "customer";
+	}
+
+	@RequestMapping(value = { "/logout" }, method = RequestMethod.GET)
+	public String logout(ModelMap model) {
+		log.info("logout");
+
+		model.clear();
+		log.warn("removed key");
+
+		return "redirect:/";
 	}
 
 	@RequestMapping(method = RequestMethod.POST)
@@ -53,12 +63,30 @@ public class HomeController {
 		} else {
 			log.info("Before Service" + user);
 			user = service.autheticate(user.getUserId(), user.getPassword());
-		//	log.info("processLogin() " + user + " against" + user.getUserId()
-		//			+ "" + user.getPassword());
-			//model.addAttribute("customer", user);
-			return "success";
+
+			if (user != null) {
+				model.addAttribute("customer", user);
+				return "success";
+			} else {
+				model.addAttribute("error", "Wrong username or password");
+				return "customer";
+			}
 		}
 
+	}
+
+	@RequestMapping(value = { "/catalog" }, method = RequestMethod.GET)
+	public String dashboard(ModelMap model) {
+		String result = "customer";
+		if (model.containsKey("customer")) {
+			User user = (User) model.get("customer");
+			if (user.getUserId() != null) {
+				log.warn("Dash board , session is present for " + user);
+				result = "success";
+			}
+		}
+
+		return result;
 	}
 
 	public UserValidator getValidator() {

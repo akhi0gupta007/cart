@@ -94,10 +94,9 @@ th.specalt {
 </style>
 </head>
 <body>
-	<h1>DashBoard</h1>
-	Welcome, what else I can say, huh
-	<c:out value="Hello Tags"></c:out></br>
+	<h1>Product Catalog</h1>
 
+	<c:out value="${customer.userId}" />
 
 
 </body>

@@ -5,7 +5,7 @@
 	<c:choose>
 		<c:when test="${sessionScope.customer.userId != null}">
 	You are : ${sessionScope.customer.userId} <br />
-			<a href="">Logout</a>
+			<a href="/cart/home/logout">Logout</a>
 		</c:when>
 		<c:otherwise>
 			<a href="">Login</a>
