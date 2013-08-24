@@ -1,5 +1,7 @@
 package com.akhi.store.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -12,6 +14,8 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 import org.apache.log4j.Logger;
 
+import com.akhi.store.dao.ProductDao;
+import com.akhi.store.general.Products;
 import com.akhi.store.general.User;
 import com.akhi.store.service.UserService;
 import com.akhi.store.validator.UserValidator;
@@ -30,6 +34,9 @@ public class HomeController {
 	@Autowired(required = true)
 	@Qualifier("daopowered")
 	private UserService service;
+
+	@Autowired
+	private ProductDao productDao;
 
 	@Autowired
 	private UserValidator validator;
@@ -66,7 +73,7 @@ public class HomeController {
 
 			if (user != null) {
 				model.addAttribute("customer", user);
-				return "success";
+				return "redirect:/home/catalog";
 			} else {
 				model.addAttribute("error", "Wrong username or password");
 				return "customer";
@@ -83,6 +90,13 @@ public class HomeController {
 			if (user.getUserId() != null) {
 				log.warn("Dash board , session is present for " + user);
 				result = "success";
+				List<Products> products = productDao.getProducts(0, 5);
+				log.info("Recieved Products Listings " + products.size());
+
+				if (products != null && products.size() > 0)
+					model.put("products", products);
+				else
+					log.error("Could Not get listing");
 			}
 		}
 

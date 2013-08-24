@@ -3,8 +3,10 @@ package com.akhi.store.general;
 import java.util.Date;
 
 public class Products {
-	
+
 	private String company;
+
+	private Double price;
 
 	private String product_code;
 
@@ -95,6 +97,57 @@ public class Products {
 	private String product_classification;
 
 	private int cases_size;
+
+	public Products(String company, Double price, String product_code,
+			String type_product, String product_cat, String packing,
+			String product_name, Double net_weight) {
+		super();
+		this.company = company;
+		this.price = price;
+		this.product_code = product_code;
+		this.type_product = type_product;
+		this.product_cat = product_cat;
+		this.packing = packing;
+		this.product_name = product_name;
+		this.net_weight = net_weight;
+	}
+
+	@Override
+	public String toString() {
+		return "Products [company=" + company + ", price=" + price
+				+ ", product_code=" + product_code + ", type_product="
+				+ type_product + ", product_cat=" + product_cat
+				+ ", brand_code=" + brand_code + ", um_code=" + um_code
+				+ ", price_cat=" + price_cat + ", packing=" + packing
+				+ ", product_name=" + product_name + ", product_other_name="
+				+ product_other_name + ", default_name=" + default_name
+				+ ", description=" + description + ", old_product_code="
+				+ old_product_code + ", gross_weight=" + gross_weight
+				+ ", net_weight=" + net_weight + ", max_level=" + max_level
+				+ ", reorder_level=" + reorder_level + ", reorder_quan="
+				+ reorder_quan + ", abc_code=" + abc_code + ", ved_code="
+				+ ved_code + ", high_value_flag=" + high_value_flag
+				+ ", total_stock_qty=" + total_stock_qty
+				+ ", total_stock_value=" + total_stock_value
+				+ ", month_opening_qty=" + month_opening_qty
+				+ ", month_opening_value=" + month_opening_value
+				+ ", year_opening_qty=" + year_opening_qty
+				+ ", year_opening_val=" + year_opening_val + ", type_sale="
+				+ type_sale + ", status=" + status + ", created_by="
+				+ created_by + ", created_on=" + created_on
+				+ ", last_updated_by=" + last_updated_by + ", last_upd_on="
+				+ last_upd_on + ", local_sale_gl_code=" + local_sale_gl_code
+				+ ", local_sale_gl_sub_code=" + local_sale_gl_sub_code
+				+ ", export_sale_gl_code=" + export_sale_gl_code
+				+ ", export_sale_gl_sub_code=" + export_sale_gl_sub_code
+				+ ", packing_size_code=" + packing_size_code
+				+ ", ref_product_code=" + ref_product_code + ", print_seq_no="
+				+ print_seq_no + ", schedule_no=" + schedule_no + ", hsn_code="
+				+ hsn_code + ", k_entry_no=" + k_entry_no + ", business_line="
+				+ business_line + ", product_classification="
+				+ product_classification + ", cases_size=" + cases_size
+				+ ", buss_code=" + buss_code + "]";
+	}
 
 	private String buss_code;
 
@@ -472,6 +525,14 @@ public class Products {
 
 	public void setBuss_code(String buss_code) {
 		this.buss_code = buss_code;
+	}
+
+	public Double getPrice() {
+		return price;
+	}
+
+	public void setPrice(Double price) {
+		this.price = price;
 	}
 
 }
