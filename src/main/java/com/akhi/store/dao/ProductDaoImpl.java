@@ -67,7 +67,7 @@ public class ProductDaoImpl implements ProductDao {
 			String sql = "SELECT PRODUCTS.COMPANY,PRODUCTS.PRODUCT_CODE,PRODUCTS.TYPE_OF_PRODUCT,PRODUCTS.PRODUCT_CATEGORY,PRODUCTS.PRODUCT_NAME,"
 					+ " PRODUCTS.PACKING_TYPE,PRODUCTS.NET_WEIGHT,ITEM_PRICES.ITEM_PRICE"
 					+ " FROM PRODUCTS"
-					+ " INNER JOIN item_prices "
+					+ " LEFT JOIN item_prices "
 					+ " ON PRODUCTS.PRODUCT_CODE=item_prices.ITEM_CODE"
 					+ " limit " + offset + "," + max + "";
 
