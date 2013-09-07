@@ -66,8 +66,8 @@
    <body>
 <div id="buddies">
 <div class="title">
-    <div class="sidebarmenu">
-<ul id="sidebarmenu1">
+    <div class="a">
+<ul id="sidebarmenu">
 <li><h2>Browse Catagories</h2></li>
     <br><br>
 

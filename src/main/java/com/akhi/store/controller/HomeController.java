@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttributes;
@@ -101,6 +102,50 @@ public class HomeController {
 		}
 
 		return result;
+	}
+
+	@RequestMapping(value = { "/details/{id}" }, method = RequestMethod.GET)
+	public String details(@PathVariable("id") int id, ModelMap model) {
+		String result = "customer";
+		log.info("Details for id " + id);
+		if (model.containsKey("customer")) {
+			User user = (User) model.get("customer");
+			if (user.getUserId() != null) {
+				log.warn("Dash board , session is present for " + user);
+				result = "details";
+				List<Products> products = productDao.getProducts(0, 5);
+				log.info("Recieved Products Listings " + products.size());
+
+				if (products != null && products.size() > 0)
+					model.put("products", products);
+				else
+					log.error("Could Not get listing");
+			}
+		}
+
+		return result;
+	}
+
+	@RequestMapping(value = { "/remoteCart/{id}" }, method = RequestMethod.GET)
+	public String remoteCart(@PathVariable("id") int id, ModelMap model) {
+		String result = "customer";
+		log.info("remoteCart for id " + id);
+		if (model.containsKey("customer")) {
+			User user = (User) model.get("customer");
+			if (user.getUserId() != null) {
+				log.warn("Dash board , session is present for " + user);
+				result = "details";
+				List<Products> products = productDao.getProducts(0, 5);
+				log.info("Recieved Products Listings " + products.size());
+
+				if (products != null && products.size() > 0)
+					model.put("products", products);
+				else
+					log.error("Could Not get listing");
+			}
+		}
+
+		return "redirect:/home/details";
 	}
 
 	public UserValidator getValidator() {

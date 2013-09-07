@@ -110,7 +110,7 @@ th.specalt {
 }
 </style>
 <script type="text/javascript">
-	var total_items = 0;
+/* 	var total_items = 0;
 	var total_price = 0;
 	$(document)
 			.ready(
@@ -219,7 +219,7 @@ th.specalt {
 				.replace("Rs ", ""));
 		total_price = total_price - price;
 		$("#cprice").html("Rs " + total_price);
-	}
+	} */
 </script>
 </head>
 <body>

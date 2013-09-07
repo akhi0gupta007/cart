@@ -19,6 +19,11 @@
 		<put-attribute name="body" value="/Welcome.jsp" />
 	</definition>
 
+	<definition name="details" extends="baseLayout">
+		<put-attribute name="title" value="Details" />
+		<put-attribute name="body" value="/WEB-INF/user/details.jsp" />
+	</definition>
+	
 	<definition name="customer" extends="baseLayout">
 		<put-attribute name="title" value="Customer Form" />
 		<put-attribute name="body" value="/WEB-INF/user/login.jsp" />
