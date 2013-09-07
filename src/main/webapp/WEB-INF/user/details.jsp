@@ -128,13 +128,13 @@ td.adjacent {
 
 			<img src="/images/products/${product.image}" alt="image" width="230"
 				height="220" /> <br> <br> <br>
-	<%-- 		<g:remoteLink action="remoteCart" onSuccess="addedCart()"
+			<%-- 		<g:remoteLink action="remoteCart" onSuccess="addedCart()"
 				id="${product.id}">
 				<img src="<g:resource dir="images" file="cart.gif"/> " rel="#mies1" />
 			</g:remoteLink> --%>
-			
+
 			<a id="${product.id} " action="remoteCart"
-				onclick="jQuery.ajax({type:'POST', url:'/cart/home/remoteCart/1',success:function(data,textStatus){addedCart();},error:function(XMLHttpRequest,textStatus,errorThrown){}});return false;"
+				onclick="jQuery.ajax({type:'POST', url:'/cart/home/remoteCart/AG0101001K',success:function(data,textStatus){addedCart();},error:function(XMLHttpRequest,textStatus,errorThrown){}});return false;"
 				href="/codebee/sales/remoteCart/1"> <img rel="#mies1"
 				src="<s:url value="/resources" />/images/cart.gif ">
 			</a>
@@ -143,32 +143,32 @@ td.adjacent {
 
 
 
-	<div class="simple_overlay" id="mies1">
-		<!-- large image -->
+		<div class="simple_overlay" id="mies1">
+			<!-- large image -->
 
-		<div class="cart">
-			<h2 align="center">Shopping Cart</h2>
-			<br> <br>
-			<form action="${request.contextPath}/sales/review" method="post"
-				id="review">
-				<table id="cart">
+			<div class="cart">
+				<h2 align="center">Shopping Cart</h2>
+				<br> <br>
+				<form action="${request.contextPath}/sales/review" method="post"
+					id="review">
+					<table id="cart">
 
 
 
-				</table>
-				<br> <br> <a href='javascript:void(0)' class="classname"
-					id='order' onclick="order()">Place Order</a>
-			</form>
+					</table>
+					<br> <br> <a href='javascript:void(0)' class="classname"
+						id='order' onclick="order()">Place Order</a>
+				</form>
 
-			<script type="text/javascript">
-				function order() {
-					$('#review').submit();
-				}
-			</script>
+				<script type="text/javascript">
+					function order() {
+						$('#review').submit();
+					}
+				</script>
+			</div>
+
+
 		</div>
-
-
-	</div>
 
 	</div>
 

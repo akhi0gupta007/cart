@@ -61,13 +61,13 @@ public class OracleJDBC {
 					+ " FROM PRODUCTS"
 					+ " LEFT JOIN item_prices "
 					+ " ON PRODUCTS.PRODUCT_CODE=item_prices.ITEM_CODE"
-					+ " limit " + offset + "," + max + "";
+					+ " where PRODUCT_CODE=?";
 
 			System.out.println("Executing SQL " + sql);
 
 			try {
 				PreparedStatement ps = connection.prepareStatement(sql);
-				// ps.setString(1, id);
+				ps.setString(1, "AG0101001K");
 				Statement stmt = connection.createStatement();
 				ResultSet rs0 = stmt.executeQuery("SELECT * FROM Users");
 				// ps.setString(2, password);

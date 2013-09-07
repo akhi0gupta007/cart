@@ -1,6 +1,9 @@
 package com.akhi.store.controller;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -11,6 +14,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 import org.apache.log4j.Logger;
@@ -26,7 +30,7 @@ import com.akhi.store.validator.UserValidator;
  */
 @Controller
 @RequestMapping(value = { "/", "/home" })
-@SessionAttributes(value = { "customer" })
+@SessionAttributes(value = { "customer", "cart" })
 public class HomeController {
 
 	private static org.apache.log4j.Logger log = Logger
@@ -74,6 +78,9 @@ public class HomeController {
 
 			if (user != null) {
 				model.addAttribute("customer", user);
+				Map<String, Integer> map = new HashMap<String, Integer>();
+				model.addAttribute("cart", map);
+				log.warn("<<<<<<<<<<<Redirecting to home page, Login process complete>>>>>>>>>>>>>>");
 				return "redirect:/home/catalog";
 			} else {
 				model.addAttribute("error", "Wrong username or password");
@@ -105,13 +112,13 @@ public class HomeController {
 	}
 
 	@RequestMapping(value = { "/details/{id}" }, method = RequestMethod.GET)
-	public String details(@PathVariable("id") int id, ModelMap model) {
+	public String details(@PathVariable("id") String id, ModelMap model) {
 		String result = "customer";
-		log.info("Details for id " + id);
+		log.info("details: Details for id " + id);
 		if (model.containsKey("customer")) {
 			User user = (User) model.get("customer");
 			if (user.getUserId() != null) {
-				log.warn("Dash board , session is present for " + user);
+				log.warn("details: , session is present for " + user);
 				result = "details";
 				List<Products> products = productDao.getProducts(0, 5);
 				log.info("Recieved Products Listings " + products.size());
@@ -126,26 +133,70 @@ public class HomeController {
 		return result;
 	}
 
-	@RequestMapping(value = { "/remoteCart/{id}" }, method = RequestMethod.GET)
-	public String remoteCart(@PathVariable("id") int id, ModelMap model) {
-		String result = "customer";
+	@SuppressWarnings("unchecked")
+	@RequestMapping(value = { "/remoteCart/{id}" })
+	public String remoteCart(@PathVariable("id") String id, ModelMap model) {
 		log.info("remoteCart for id " + id);
-		if (model.containsKey("customer")) {
+		if (model.containsKey("customer") && model.containsKey("cart")) {
 			User user = (User) model.get("customer");
+			Map<String, Integer> cart = (Map<String, Integer>) model
+					.get("cart");
 			if (user.getUserId() != null) {
-				log.warn("Dash board , session is present for " + user);
-				result = "details";
-				List<Products> products = productDao.getProducts(0, 5);
-				log.info("Recieved Products Listings " + products.size());
 
-				if (products != null && products.size() > 0)
-					model.put("products", products);
-				else
-					log.error("Could Not get listing");
+				log.warn("remoteCart, session is present for " + user
+						+ " and cart is " + cart);
+				cart.put(id, 1);
+				log.warn("remoteCart, cart updated " + user
+						+ " and now cart is " + cart);
+			}
+		} else {
+			log.error("remoteCart: Keys are missing for remoteCart: customer > "
+					+ model.containsKey("customer")
+					+ " and cart"
+					+ model.containsKey("cart"));
+		}
+		String url = "redirect:/home/details/" + id;
+		log.warn("RemoteCart: Redirect to " + url);
+		return url;
+	}
+
+	@SuppressWarnings("unchecked")
+	@RequestMapping(value = { "/cartHelper" }, method = RequestMethod.GET)
+	public @ResponseBody
+	List<List<String>> cartHelper(ModelMap model) {
+
+		List<List<String>> parent = new ArrayList<List<String>>();
+
+		if (model.containsKey("customer") && model.containsKey("cart")) {
+			User user = (User) model.get("customer");
+			Map<String, Integer> cart = (Map<String, Integer>) model
+					.get("cart");
+
+			if (user.getUserId() != null && cart.size() > 0) {
+				log.warn("cartHelper, session is present for " + user
+						+ " and cart is " + cart);
+
+				for (String key : cart.keySet()) {
+					List<String> list = new ArrayList<String>();
+					Products product = productDao.getById(key);
+					log.info("Carthelpper, product is " + product);
+					if (product != null) {
+						list.add(product.getProduct_code());
+						list.add(product.getProduct_name());
+						list.add(product.getImage());
+						list.add(product.getDescription());
+						list.add(String.valueOf(product.getPrice()));
+						list.add(String.valueOf(cart.get(key)));
+						Double total = product.getPrice() * cart.get(key);
+						list.add(String.valueOf(total));
+						parent.add(list);
+					}
+				}
+
 			}
 		}
-
-		return "redirect:/home/details";
+		log.info("CartHelper , parent " + parent);
+		return parent;
 	}
 
 	public UserValidator getValidator() {

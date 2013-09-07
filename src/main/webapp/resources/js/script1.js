@@ -501,7 +501,7 @@ function showCart(){
 function sessionCart2(){
     $('#cart').empty()
 
-        var uri = path + '/sales/cartHelper/'
+        var uri = path + '/cart/home/cartHelper/'
         var data2
     
         var items = [];
@@ -534,8 +534,8 @@ function sessionCart2(){
                 
 
              trail = desc+"</td><td>"+
-              sp+"</td><td><span id='edit"+ser+"'>"+"<span id='quan"+ser+"'>"+quantity+"</span>" +"<br><a id='changed' href='javascript:void(0)' onclick='myJsFunc("+ser+");' >Change</a></span>"+
-            "<span id='save"+ser+"' style='display:none;'><input type='text' size='3' name='new' id='new"+ser+"'><br><a id='saved' href='javascript:void(0)' onclick='saved("+ser+","+sp+");' >Save</a></span></td><td><span id='total"+ser+"'>"+total +"</span></td><td>";      
+              sp+"</td><td><span id='edit"+ser+"'>"+"<span id='quan"+ser+"'>"+quantity+"</span>" +"<br><a id='changed' href='javascript:void(0)' onclick='myJsFunc(&quot;"+ser+"&quot;);' >Change</a></span>"+
+            "<span id='save"+ser+"' style='display:none;'><input type='text' size='3' name='new' id='new"+ser+"'><br><a id='saved' href='javascript:void(0)' onclick='saved(&quot;"+ser+"&quot;,"+sp+");' >Save</a></span></td><td><span id='total"+ser+"'>"+total +"</span></td><td>";      
 
           
          if(image != null){
