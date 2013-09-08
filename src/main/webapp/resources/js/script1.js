@@ -548,7 +548,7 @@ function sessionCart2(){
                }
     
 
-        var danger = "<input type='button' onClick='shit("+ser+")' value='Delete' ></td></tr>";
+        var danger = "<input type='button' onClick='shit(&quot;"+ser+"&quot;)' value='Delete' ></td></tr>";
 
         row = row + danger ;
             
@@ -625,7 +625,7 @@ function saved(ser,price){
      $("#save"+ser+'').css("display","none");
      $("#edit"+ser+'').css("display","block"); 
 
-      var uri = path + "/sales/updateQuantity/"+ser+"/?quan="+newVal;
+      var uri = path + "/cart/home/updateQuantity/"+ser+"/?quan="+newVal;
 
       $.post(uri, function(data) {
        console.log("Data Loaded: " + data);

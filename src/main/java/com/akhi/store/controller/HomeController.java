@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
@@ -197,6 +198,49 @@ public class HomeController {
 		}
 		log.info("CartHelper , parent " + parent);
 		return parent;
+	}
+
+	@SuppressWarnings("unchecked")
+	@RequestMapping(value = { "/updateQuantity/{id}" }, method = RequestMethod.POST)
+	public @ResponseBody
+	List<String> updateQuantity(@PathVariable("id") String id,
+			@RequestParam(value = "quan", defaultValue = "1") String quan,
+			ModelMap model) {
+
+		log.info("updateQuantity, id = " + id + " quan " + quan);
+		List<String> parent = new ArrayList<String>();
+
+		if (model.containsKey("customer") && model.containsKey("cart")) {
+			User user = (User) model.get("customer");
+			Map<String, Integer> cart = (Map<String, Integer>) model
+					.get("cart");
+
+			if (user.getUserId() != null && cart.size() > 0 && there(cart, id)) {
+				log.warn("cartHelper, session is present for " + user
+						+ " and cart is " + cart);
+
+				cart.put(id, Integer.parseInt(quan));
+				model.remove("cart");
+				model.addAttribute("cart", cart);
+				log.info("updateQuantity: Now the cart becomes" + cart);
+				parent.add("true");
+
+			} else {
+				parent.add("false");
+			}
+		}
+		log.info("updateQuantity , parent " + parent);
+		return parent;
+	}
+
+	public static boolean there(Map<String, Integer> set, Object obj) {
+		for (String x : set.keySet()) {
+			if (x.toString().equals(obj.toString())) {
+				return true;
+
+			}
+		}
+		return false;
 	}
 
 	public UserValidator getValidator() {
