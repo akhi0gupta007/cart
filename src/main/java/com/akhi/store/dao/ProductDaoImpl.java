@@ -55,8 +55,7 @@ public class ProductDaoImpl implements ProductDao {
 
 	@Override
 	public List<Products> getProducts(int offset, int max) {
-		log.info(">>>>>>>>>>>>>>>>>>>>>>>ProductDaoImplgetProducts"
-				+ dataSource + offset + max);
+
 		Products result = null;
 		ResultSet rs;
 		Connection conn = null;
@@ -67,7 +66,7 @@ public class ProductDaoImpl implements ProductDao {
 			String sql = "SELECT PRODUCTS.COMPANY,PRODUCTS.PRODUCT_CODE,PRODUCTS.TYPE_OF_PRODUCT,PRODUCTS.PRODUCT_CATEGORY,PRODUCTS.PRODUCT_NAME,"
 					+ " PRODUCTS.PACKING_TYPE,PRODUCTS.NET_WEIGHT,ITEM_PRICES.ITEM_PRICE"
 					+ " FROM PRODUCTS"
-					+ " INNER JOIN item_prices "
+					+ " LEFT JOIN item_prices "
 					+ " ON PRODUCTS.PRODUCT_CODE=item_prices.ITEM_CODE"
 					+ " limit " + offset + "," + max + "";
 
@@ -90,7 +89,7 @@ public class ProductDaoImpl implements ProductDao {
 								rs.getDouble("NET_WEIGHT"));
 						products.add(result);
 					}
-					log.info("Result :::::::::::::" + products.size());
+
 				} catch (SQLException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -111,5 +110,65 @@ public class ProductDaoImpl implements ProductDao {
 			}
 		}
 		return products;
+	}
+
+	@Override
+	public Products getById(String id) {
+
+		Products result = null;
+		ResultSet rs;
+		Connection conn = null;
+		
+		try {
+			conn = dataSource.getConnection();
+
+			String sql = "SELECT PRODUCTS.COMPANY,PRODUCTS.PRODUCT_CODE,PRODUCTS.TYPE_OF_PRODUCT,PRODUCTS.PRODUCT_CATEGORY,PRODUCTS.PRODUCT_NAME,"
+					+ " PRODUCTS.PACKING_TYPE,PRODUCTS.NET_WEIGHT,ITEM_PRICES.ITEM_PRICE"
+					+ " FROM PRODUCTS"
+					+ " LEFT JOIN item_prices "
+					+ " ON PRODUCTS.PRODUCT_CODE=item_prices.ITEM_CODE"
+					+ " where PRODUCT_CODE=?";
+					
+			log.info("Executing SQL " + sql);
+			PreparedStatement ps = conn.prepareStatement(sql);
+			ps.setString(1, id);
+			rs = ps.executeQuery();
+			if (rs == null) {
+				log.warn("Nothing found");
+			} else {
+
+				try {
+					while (rs.next()) {
+						result = new Products(rs.getString("COMPANY"),
+								rs.getDouble("ITEM_PRICE"),
+								rs.getString("PRODUCT_CODE"),
+								rs.getString("TYPE_OF_PRODUCT"),
+								rs.getString("PRODUCT_CATEGORY"),
+								rs.getString("PACKING_TYPE"),
+								rs.getString("COMPANY"),
+								rs.getDouble("NET_WEIGHT"));
+						
+					}
+
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+
+			}
+			ps.close();
+
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+
+		} finally {
+			if (conn != null) {
+				try {
+					conn.close();
+				} catch (SQLException e) {
+				}
+			}
+		}
+		return result;
 	}
 }

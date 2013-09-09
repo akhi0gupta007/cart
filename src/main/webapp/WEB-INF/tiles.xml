@@ -9,6 +9,7 @@
 		<put-attribute name="header" value="/layout/Header.jsp" />
 		<put-attribute name="menu" value="/layout/Menu.jsp" />
 		<put-attribute name="body" value="" />
+		<put-attribute name="cat" value="/layout/sidebar.jsp" />
 		<put-attribute name="footer" value="/layout/Footer.jsp" />
 		<put-attribute cascade="true" name="topbar" value="/layout/topbar.jsp"></put-attribute>
 	</definition>
@@ -18,6 +19,11 @@
 		<put-attribute name="body" value="/Welcome.jsp" />
 	</definition>
 
+	<definition name="details" extends="baseLayout">
+		<put-attribute name="title" value="Details" />
+		<put-attribute name="body" value="/WEB-INF/user/details.jsp" />
+	</definition>
+	
 	<definition name="customer" extends="baseLayout">
 		<put-attribute name="title" value="Customer Form" />
 		<put-attribute name="body" value="/WEB-INF/user/login.jsp" />

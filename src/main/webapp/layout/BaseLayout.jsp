@@ -7,28 +7,33 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title><tiles:insertAttribute name="title" ignore="true" /></title>
 
-  <link href="<s:url value="/resources" />/css/main.css" 
-          rel="stylesheet" 
-          type="text/css" />
+<link href="<s:url value="/resources" />/css/site.css" rel="stylesheet"
+	type="text/css" />
 </head>
 
 <body>
 	<div id="page">
 		<div id="spinner" class="spinner" style="display: none;"></div>
-		<div id="topbar">
-		<tiles:insertAttribute name="topbar" />
+		<div id="cus">
+			<tiles:insertAttribute name="topbar" />
 		</div>
 		<div id="header">
-			<h1>Task Submission App</h1>
+			<h1>Shopping Cart</h1>
 		</div>
-		<div id="content">
-			<tiles:insertAttribute name="body" />
-		</div>
-		<div id="sidebar">
+		<div id="topbar1">
 			<tiles:insertAttribute name="menu" />
 		</div>
-		<div id="footer">
-			<tiles:insertAttribute name="footer" />
+		<div id="maincontainer">
+			<div id="content">
+				<tiles:insertAttribute name="body" />
+			</div>
+			<div id="sidebar">
+				<tiles:insertAttribute name="cat" />
+			</div>
+			<div id="footer">
+				<tiles:insertAttribute name="footer" />
+			</div>
+			<div style="clear: both;"></div>
 		</div>
 	</div>
 </body>

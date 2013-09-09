@@ -97,6 +97,8 @@ public class Products {
 	private String product_classification;
 
 	private int cases_size;
+	
+	private String image;
 
 	public Products(String company, Double price, String product_code,
 			String type_product, String product_cat, String packing,
@@ -533,6 +535,14 @@ public class Products {
 
 	public void setPrice(Double price) {
 		this.price = price;
+	}
+
+	public String getImage() {
+		return image;
+	}
+
+	public void setImage(String image) {
+		this.image = image;
 	}
 
 }

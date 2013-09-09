@@ -55,19 +55,19 @@ public class OracleJDBC {
 			String id = "akhi";
 			String password = "password";
 			int offset = 0;
-			int max = 2;
+			int max = 20;
 			String sql = "SELECT PRODUCTS.COMPANY,PRODUCTS.PRODUCT_CODE,PRODUCTS.TYPE_OF_PRODUCT,PRODUCTS.PRODUCT_CATEGORY,PRODUCTS.PRODUCT_NAME,"
 					+ " PRODUCTS.PACKING_TYPE,PRODUCTS.NET_WEIGHT,ITEM_PRICES.ITEM_PRICE"
 					+ " FROM PRODUCTS"
-					+ " INNER JOIN item_prices "
+					+ " LEFT JOIN item_prices "
 					+ " ON PRODUCTS.PRODUCT_CODE=item_prices.ITEM_CODE"
-					+ " limit " + offset + "," + max + "";
+					+ " where PRODUCT_CODE=?";
 
 			System.out.println("Executing SQL " + sql);
 
 			try {
 				PreparedStatement ps = connection.prepareStatement(sql);
-				// ps.setString(1, id);
+				ps.setString(1, "AG0101001K");
 				Statement stmt = connection.createStatement();
 				ResultSet rs0 = stmt.executeQuery("SELECT * FROM Users");
 				// ps.setString(2, password);
@@ -87,8 +87,9 @@ public class OracleJDBC {
 								rs.getString("PACKING_TYPE"),
 								rs.getString("COMPANY"),
 								rs.getDouble("NET_WEIGHT"));
+						System.out.println("Result :::::::::::::" + result);
 					}
-					System.out.println("Result :::::::::::::" + result);
+		
 				} catch (SQLException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
