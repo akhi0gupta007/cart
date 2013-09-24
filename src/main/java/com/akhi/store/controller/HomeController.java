@@ -233,6 +233,37 @@ public class HomeController {
 		return parent;
 	}
 
+	@SuppressWarnings("unchecked")
+	@RequestMapping(value = { "/delete/{id}" }, method = RequestMethod.POST)
+	public @ResponseBody
+	List<String> delete(@PathVariable("id") String id,ModelMap model) {
+
+		log.info("delete from cart, id = " + id);
+		List<String> parent = new ArrayList<String>();
+
+		if (model.containsKey("customer") && model.containsKey("cart")) {
+			User user = (User) model.get("customer");
+			Map<String, Integer> cart = (Map<String, Integer>) model
+					.get("cart");
+
+			if (user.getUserId() != null && cart.size() > 0 && there(cart, id)) {
+				log.warn("cartHelper, session is present for " + user
+						+ " and cart is " + cart);
+
+				cart.remove(id);
+				model.remove("cart");
+				model.addAttribute("cart", cart);
+				log.info("updateQuantity: Now the cart becomes" + cart);
+				parent.add("true");
+
+			} else {
+				parent.add("false");
+			}
+		}
+		log.info("updateQuantity , parent " + parent);
+		return parent;
+	}
+
 	public static boolean there(Map<String, Integer> set, Object obj) {
 		for (String x : set.keySet()) {
 			if (x.toString().equals(obj.toString())) {

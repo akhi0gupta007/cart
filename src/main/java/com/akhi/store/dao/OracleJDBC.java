@@ -59,8 +59,8 @@ public class OracleJDBC {
 			String sql = "SELECT PRODUCTS.COMPANY,PRODUCTS.PRODUCT_CODE,PRODUCTS.TYPE_OF_PRODUCT,PRODUCTS.PRODUCT_CATEGORY,PRODUCTS.PRODUCT_NAME,"
 					+ " PRODUCTS.PACKING_TYPE,PRODUCTS.NET_WEIGHT,ITEM_PRICES.ITEM_PRICE"
 					+ " FROM PRODUCTS"
-					+ " LEFT JOIN item_prices "
-					+ " ON PRODUCTS.PRODUCT_CODE=item_prices.ITEM_CODE"
+					+ " LEFT JOIN ITEM_PRICES "
+					+ " ON PRODUCTS.PRODUCT_CODE=ITEM_PRICES.ITEM_CODE"
 					+ " where PRODUCT_CODE=?";
 
 			System.out.println("Executing SQL " + sql);
@@ -69,7 +69,7 @@ public class OracleJDBC {
 				PreparedStatement ps = connection.prepareStatement(sql);
 				ps.setString(1, "AG0101001K");
 				Statement stmt = connection.createStatement();
-				ResultSet rs0 = stmt.executeQuery("SELECT * FROM Users");
+				ResultSet rs0 = stmt.executeQuery("SELECT * FROM USERS");
 				// ps.setString(2, password);
 				// System.out.println("Executing result " + sql);
 				ResultSet rs = ps.executeQuery();

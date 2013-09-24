@@ -66,8 +66,8 @@ public class ProductDaoImpl implements ProductDao {
 			String sql = "SELECT PRODUCTS.COMPANY,PRODUCTS.PRODUCT_CODE,PRODUCTS.TYPE_OF_PRODUCT,PRODUCTS.PRODUCT_CATEGORY,PRODUCTS.PRODUCT_NAME,"
 					+ " PRODUCTS.PACKING_TYPE,PRODUCTS.NET_WEIGHT,ITEM_PRICES.ITEM_PRICE"
 					+ " FROM PRODUCTS"
-					+ " LEFT JOIN item_prices "
-					+ " ON PRODUCTS.PRODUCT_CODE=item_prices.ITEM_CODE"
+					+ " LEFT JOIN ITEM_PRICES "
+					+ " ON PRODUCTS.PRODUCT_CODE=ITEM_PRICES.ITEM_CODE"
 					+ " limit " + offset + "," + max + "";
 
 			log.info("Executing SQL " + sql);
@@ -87,6 +87,12 @@ public class ProductDaoImpl implements ProductDao {
 								rs.getString("PACKING_TYPE"),
 								rs.getString("COMPANY"),
 								rs.getDouble("NET_WEIGHT"));
+
+						String image = getByImageId(result.getProduct_code());
+
+						if (image != null) {
+							result.setImage(image);
+						}
 						products.add(result);
 					}
 
@@ -118,17 +124,17 @@ public class ProductDaoImpl implements ProductDao {
 		Products result = null;
 		ResultSet rs;
 		Connection conn = null;
-		
+
 		try {
 			conn = dataSource.getConnection();
 
 			String sql = "SELECT PRODUCTS.COMPANY,PRODUCTS.PRODUCT_CODE,PRODUCTS.TYPE_OF_PRODUCT,PRODUCTS.PRODUCT_CATEGORY,PRODUCTS.PRODUCT_NAME,"
 					+ " PRODUCTS.PACKING_TYPE,PRODUCTS.NET_WEIGHT,ITEM_PRICES.ITEM_PRICE"
 					+ " FROM PRODUCTS"
-					+ " LEFT JOIN item_prices "
-					+ " ON PRODUCTS.PRODUCT_CODE=item_prices.ITEM_CODE"
+					+ " LEFT JOIN ITEM_PRICES "
+					+ " ON PRODUCTS.PRODUCT_CODE=ITEM_PRICES.ITEM_CODE"
 					+ " where PRODUCT_CODE=?";
-					
+
 			log.info("Executing SQL " + sql);
 			PreparedStatement ps = conn.prepareStatement(sql);
 			ps.setString(1, id);
@@ -147,7 +153,59 @@ public class ProductDaoImpl implements ProductDao {
 								rs.getString("PACKING_TYPE"),
 								rs.getString("COMPANY"),
 								rs.getDouble("NET_WEIGHT"));
-						
+
+					}
+
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+
+			}
+			ps.close();
+
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+
+		} finally {
+			if (conn != null) {
+				try {
+					conn.close();
+				} catch (SQLException e) {
+				}
+			}
+		}
+
+		String image = getByImageId(result.getProduct_code());
+
+		if (image != null)
+			result.setImage(image);
+
+		return result;
+	}
+
+	public String getByImageId(String id) {
+
+		String result = null;
+		ResultSet rs;
+		Connection conn = null;
+
+		try {
+			conn = dataSource.getConnection();
+
+			String sql = "SELECT * from IMAGES where code = ?";
+
+			log.info("Executing SQL " + sql);
+			PreparedStatement ps = conn.prepareStatement(sql);
+			ps.setString(1, id);
+			rs = ps.executeQuery();
+			if (rs == null) {
+				log.warn("getByImageId(): Image not found");
+			} else {
+
+				try {
+					while (rs.next()) {
+						result = rs.getString("IMAGE");
 					}
 
 				} catch (SQLException e) {

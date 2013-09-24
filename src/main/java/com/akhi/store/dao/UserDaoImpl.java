@@ -62,7 +62,7 @@ public class UserDaoImpl implements UserDao {
 		Connection conn = null;
 		try {
 			conn = dataSource.getConnection();
-			String sql = "SELECT * from Users where userid = '" + id
+			String sql = "SELECT * from USERS where userid = '" + id
 					+ "' and password = '" + password + "'";
 			log.info("Executing SQL " + sql);
 			PreparedStatement ps = conn.prepareStatement(sql);

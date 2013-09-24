@@ -638,7 +638,7 @@ function saved(ser,price){
 function shit(id){
   
   console.log("Bhag Bhag DK Bose"+id);
- var uri = path + "/sales/cartService/"+id;
+ var uri = path + "/cart/home/delete/"+id;
 
   $.post(uri, function(data) {
    console.log("Data Loaded: " + data);
