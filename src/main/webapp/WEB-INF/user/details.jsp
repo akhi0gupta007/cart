@@ -50,7 +50,8 @@ td.adjacent {
 
 /* close button positioned on upper right corner */
 .simple_overlay .close {
-	background-image: url(< s : url value = "/resources"/ >/ images/ close.png);
+	background-image: url(<         s :         url value =         "/resources"/ >/ images/
+		close.png);
 	position: absolute;
 	right: -15px;
 	top: -15px;
@@ -131,35 +132,72 @@ td.adjacent {
 			</a>
 		</div>
 
+		<div style="float: left">
+			<table style="float: left;">
+				<tr>
+					<td class="bold">Description:</td>
+					<td>${products.description}</td>
 
+				</tr>
 
+				<tr>
+					<td class="bold">Selling Price:</td>
+					<td>${products.price}</td>
 
-		<div class="simple_overlay" id="mies1">
-			<!-- large image -->
+				</tr>
+				<tr>
+					<td class="bold">Net Weight:</td>
+					<td>${products.net_weight}</td>
+				</tr>
+				<tr>
+					<td class="bold">Product Code:</td>
+					<td>${products.product_code}</td>
+				</tr>
+				<tr>
+					<td class="bold">Company:</td>
+					<td>${products.company}</td>
+				</tr>
+				<tr>
+					<td class="bold">Stock :</td>
+					<td>${product.total_stock_qty}</td>
 
-			<div class="cart">
-				<h2 align="center">Shopping Cart</h2>
-				<br> <br>
-				<form action="${request.contextPath}/sales/review" method="post"
-					id="review">
-					<table id="cart">
+				</tr>
 
-
-
-					</table>
-					<br> <br> <a href='javascript:void(0)' class="classname"
-						id='order' onclick="order()">Place Order</a>
-				</form>
-
-				<script type="text/javascript">
-					function order() {
-						$('#review').submit();
-					}
-				</script>
-			</div>
-
-
+			</table>
 		</div>
+
+	</div>
+
+
+
+
+
+	<div class="simple_overlay" id="mies1">
+		<!-- large image -->
+
+		<div class="cart">
+			<h2 align="center">Shopping Cart</h2>
+			<br> <br>
+			<form action="${request.contextPath}/sales/review" method="post"
+				id="review">
+				<table id="cart">
+
+
+
+				</table>
+				<br> <br> <a href='javascript:void(0)' class="classname"
+					id='order' onclick="order()">Place Order</a>
+			</form>
+
+			<script type="text/javascript">
+				function order() {
+					$('#review').submit();
+				}
+			</script>
+		</div>
+
+
+	</div>
 
 	</div>
 
