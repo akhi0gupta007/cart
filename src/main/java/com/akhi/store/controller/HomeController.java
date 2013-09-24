@@ -121,11 +121,11 @@ public class HomeController {
 			if (user.getUserId() != null) {
 				log.warn("details: , session is present for " + user);
 				result = "details";
-				List<Products> products = productDao.getProducts(0, 5);
-				log.info("Recieved Products Listings " + products.size());
+				Products product = productDao.getById(id);
+				log.info("Recieved Products Listings " + product);
 
-				if (products != null && products.size() > 0)
-					model.put("products", products);
+				if (product != null)
+					model.put("products", product);
 				else
 					log.error("Could Not get listing");
 			}

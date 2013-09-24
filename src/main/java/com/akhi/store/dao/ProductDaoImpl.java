@@ -85,7 +85,7 @@ public class ProductDaoImpl implements ProductDao {
 								rs.getString("TYPE_OF_PRODUCT"),
 								rs.getString("PRODUCT_CATEGORY"),
 								rs.getString("PACKING_TYPE"),
-								rs.getString("COMPANY"),
+								rs.getString("PRODUCT_NAME"),
 								rs.getDouble("NET_WEIGHT"));
 
 						String image = getByImageId(result.getProduct_code());
@@ -151,7 +151,7 @@ public class ProductDaoImpl implements ProductDao {
 								rs.getString("TYPE_OF_PRODUCT"),
 								rs.getString("PRODUCT_CATEGORY"),
 								rs.getString("PACKING_TYPE"),
-								rs.getString("COMPANY"),
+								rs.getString("PRODUCT_NAME"),
 								rs.getDouble("NET_WEIGHT"));
 
 					}

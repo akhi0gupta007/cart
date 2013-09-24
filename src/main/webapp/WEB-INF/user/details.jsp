@@ -50,7 +50,7 @@ td.adjacent {
 
 /* close button positioned on upper right corner */
 .simple_overlay .close {
-	background-image: url(${request.contextPath}/images/close.png);
+	background-image: url(< s : url value = "/resources"/ >/ images/ close.png);
 	position: absolute;
 	right: -15px;
 	top: -15px;
@@ -118,22 +118,13 @@ td.adjacent {
 </head>
 <body style="background-color: #E643DB;">
 	<div class="body">
-		<h2 align="center">${product.title}</h2>
+		<h3 align="center">${products.product_name}</h3>
 		<br>
 
 		<div id="image" style="float: right;">
-
-
-
-
-			<img src="/images/products/${product.image}" alt="image" width="230"
-				height="220" /> <br> <br> <br>
-			<%-- 		<g:remoteLink action="remoteCart" onSuccess="addedCart()"
-				id="${product.id}">
-				<img src="<g:resource dir="images" file="cart.gif"/> " rel="#mies1" />
-			</g:remoteLink> --%>
-
-			<a id="${product.id} " action="remoteCart"
+			<img src="<s:url value="/resources" />/images/p/${products.image}"
+				alt="image" width="230" height="220" /> <br> <br> <br>
+			<a id="${products.brand_code} " action="remoteCart"
 				onclick="jQuery.ajax({type:'POST', url:'/cart/home/remoteCart/AG0101001K',success:function(data,textStatus){addedCart();},error:function(XMLHttpRequest,textStatus,errorThrown){}});return false;"
 				href="/codebee/sales/remoteCart/1"> <img rel="#mies1"
 				src="<s:url value="/resources" />/images/cart.gif ">

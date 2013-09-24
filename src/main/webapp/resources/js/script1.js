@@ -538,14 +538,10 @@ function sessionCart2(){
             "<span id='save"+ser+"' style='display:none;'><input type='text' size='3' name='new' id='new"+ser+"'><br><a id='saved' href='javascript:void(0)' onclick='saved(&quot;"+ser+"&quot;,"+sp+");' >Save</a></span></td><td><span id='total"+ser+"'>"+total +"</span></td><td>";      
 
           
-         if(image != null){
-               
-              row ="<tr id='"+ser+"i'><td><img src='"+path+"/images/products/"+image+"' height='50' width='60'/></td><td>"+ trail;
-
-               }else{
+    
 
                  row ="<tr id='"+ser+"i'><td>"+title+"</td><td>"+ trail;
-               }
+        
     
 
         var danger = "<input type='button' onClick='shit(&quot;"+ser+"&quot;)' value='Delete' ></td></tr>";
