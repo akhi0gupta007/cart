@@ -2,83 +2,86 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="s" uri="http://www.springframework.org/tags"%>
 <html>
-  <head>
-      <style type="text/css">
+<head>
+<style type="text/css">
+.sidebarmenu ul {
+	margin: 0;
+	padding: 0;
+	list-style-type: none;
+	font: bold 13px Verdana;
+	width: 180px; /* Main Menu Item widths */
+	border-bottom: 1px solid #ccc;
+}
 
-      .sidebarmenu ul{
-          margin: 0;
-          padding: 0;
-          list-style-type: none;
-          font: bold 13px Verdana;
-          width: 180px; /* Main Menu Item widths */
-          border-bottom: 1px solid #ccc;
-      }
+.sidebarmenu ul li {
+	position: relative;
+}
 
-      .sidebarmenu ul li{
-          position: relative;
-      }
+/* Top level menu links style */
+.sidebarmenu ul li a {
+	display: block;
+	overflow: auto; /*force hasLayout in IE7 */
+	color: white;
+	text-decoration: none;
+	padding: 6px;
+	border-bottom: 1px solid #778;
+	border-right: 1px solid #778;
+}
 
-          /* Top level menu links style */
-      .sidebarmenu ul li a{
-          display: block;
-          overflow: auto; /*force hasLayout in IE7 */
-          color: white;
-          text-decoration: none;
-          padding: 6px;
-          border-bottom: 1px solid #778;
-          border-right: 1px solid #778;
-      }
+.sidebarmenu ul li a:link,.sidebarmenu ul li a:visited,.sidebarmenu ul li a:active
+	{
+	background-color: #012D58; /*background of tabs (default state)*/
+}
 
-      .sidebarmenu ul li a:link, .sidebarmenu ul li a:visited, .sidebarmenu ul li a:active{
-          background-color: #012D58; /*background of tabs (default state)*/
-      }
+.sidebarmenu ul li a:visited {
+	color: white;
+}
 
-      .sidebarmenu ul li a:visited{
-          color: white;
-      }
+.sidebarmenu ul li a:hover {
+	background-color: black;
+}
 
-      .sidebarmenu ul li a:hover{
-          background-color: black;
-      }
+/*Sub level menu items */
+.sidebarmenu ul li ul {
+	position: absolute;
+	width: 170px; /*Sub Menu Items width */
+	top: 0;
+	visibility: hidden;
+}
 
-          /*Sub level menu items */
-      .sidebarmenu ul li ul{
-          position: absolute;
-          width: 170px; /*Sub Menu Items width */
-          top: 0;
-          visibility: hidden;
-      }
+.sidebarmenu a.subfolderstyle {
+	background: url(${request.contextPath}/images/right.gif) no-repeat 97%
+		50%;
+}
 
-      .sidebarmenu a.subfolderstyle{
-          background: url(${request.contextPath}/images/right.gif) no-repeat 97% 50%;
-      }
+/* Holly Hack for IE \*/
+* html .sidebarmenu ul li {
+	float: left;
+	height: 1%;
+}
+
+* html .sidebarmenu ul li a {
+	height: 1%;
+}
+/* End */
+</style>
 
 
-          /* Holly Hack for IE \*/
-      * html .sidebarmenu ul li { float: left; height: 1%; }
-      * html .sidebarmenu ul li a { height: 1%; }
-          /* End */
-
-      </style>
-
-    
-  </head>
-   <body>
-<div id="buddies">
-<div class="title">
-    <div class="a">
-<ul id="sidebarmenu">
-<li><h2>Browse Catagories</h2></li>
-    <br><br>
-
-        <li>
-    <a> 	Category 1 </a>
-        </li>
-
-   
-</ul> 
- </div>
-<!--
+</head>
+<body>
+	<div id="buddies">
+		<div class="title">
+			<div class="a">
+				<ul id="sidebarmenu">
+					<li><h2>Browse Categories</h2></li>
+					<li><br/></li>
+					<li><br/></li>
+					<c:forEach items="${cats}" var="elm">
+						<li><a href="/cart/home/catalog?cat=${elm.key} "> ${elm.value} </a></li>
+					</c:forEach>
+				</ul>
+			</div>
+			<!--
  <p><strong>LATEST TWEETS</strong></p>
 <script charset="utf-8" src="http://widgets.twimg.com/j/2/widget.js"></script>
 <script>
@@ -110,11 +113,11 @@ new TWTR.Widget({
 
 </script>
  -->
-    <br><br>
+			<br> <br>
 
 
 
-</div>
-</div>
-   </body>
+		</div>
+	</div>
+</body>
 </html>

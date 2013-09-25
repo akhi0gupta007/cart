@@ -5,7 +5,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.sql.DataSource;
 
@@ -206,6 +208,52 @@ public class ProductDaoImpl implements ProductDao {
 				try {
 					while (rs.next()) {
 						result = rs.getString("IMAGE");
+					}
+
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+
+			}
+			ps.close();
+
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+
+		} finally {
+			if (conn != null) {
+				try {
+					conn.close();
+				} catch (SQLException e) {
+				}
+			}
+		}
+		return result;
+	}
+
+	@Override
+	public Map<String, String> getCats() {
+
+		ResultSet rs;
+		Connection conn = null;
+		Map<String, String> result = new HashMap<String, String>();
+		try {
+			conn = dataSource.getConnection();
+
+			String sql = "SELECT * from PRODUCT_TYPES";
+
+			log.info("Executing SQL " + sql);
+			PreparedStatement ps = conn.prepareStatement(sql);
+			rs = ps.executeQuery();
+			if (rs == null) {
+				log.error("getCats(): Cats not found");
+			} else {
+
+				try {
+					while (rs.next()) {
+						result.put(rs.getString("TYPE_OF_PRODUCT"),
+								rs.getString("NAME"));
 					}
 
 				} catch (SQLException e) {

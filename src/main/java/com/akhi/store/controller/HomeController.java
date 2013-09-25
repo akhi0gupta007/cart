@@ -101,11 +101,20 @@ public class HomeController {
 				result = "success";
 				List<Products> products = productDao.getProducts(0, 5);
 				log.info("Recieved Products Listings " + products.size());
+				
+				Map<String,String> cats = productDao.getCats();
+				log.info("Recieved Products Cats " + cats);
+				
 
 				if (products != null && products.size() > 0)
 					model.put("products", products);
 				else
 					log.error("Could Not get listing");
+				
+				if (cats != null && cats.size() > 0)
+					model.put("cats", cats);
+				else
+					log.error("Could Not get cats");
 			}
 		}
 
