@@ -11,5 +11,7 @@ public interface ProductDao extends GenericDAO<Products,Long> {
 	
 	Products getById(String id);
 	
+	List<Products> getByCat(String cat,int offset, int max);
+	
 	Map<String,String> getCats();
 }

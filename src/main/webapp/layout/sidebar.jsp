@@ -73,12 +73,21 @@
 		<div class="title">
 			<div class="a">
 				<ul id="sidebarmenu">
-					<li><h2>Browse Categories</h2></li>
-					<li><br/></li>
-					<li><br/></li>
-					<c:forEach items="${cats}" var="elm">
-						<li><a href="/cart/home/catalog?cat=${elm.key} "> ${elm.value} </a></li>
-					</c:forEach>
+					<c:choose>
+
+						<c:when test="${cats != null}">
+							<li><h2>Browse Categories</h2></li>
+							<li><br /></li>
+							<li><br /></li>
+							<c:forEach items="${cats}" var="elm">
+								<li><a href="/cart/home/catalog?cat=${elm.key} ">
+										${elm.value} </a></li>
+							</c:forEach>
+						</c:when>
+
+					</c:choose>
+
+
 				</ul>
 			</div>
 			<!--

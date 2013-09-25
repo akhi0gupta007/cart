@@ -1,7 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ taglib prefix="s" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
@@ -50,8 +50,10 @@ td.adjacent {
 
 /* close button positioned on upper right corner */
 .simple_overlay .close {
-	background-image: url(<s:url value ="/resources" />/images/
-		close.png);
+	background-image: url(<                             s :                             url
+		value =     
+		               
+		       "/resources"/ >/ images/ close.png);
 	position: absolute;
 	right: -15px;
 	top: -15px;
@@ -110,94 +112,38 @@ td.adjacent {
 
 <script type="text/javascript"
 	src="<s:url value="/resources" />/js/overlay.js"></script>
-<script type="text/javascript">
-	$(document).ready(function() {
-		$("img[rel]").overlay();
-		path = "${request.contextPath}"
-	});
-</script>
 </head>
 <body style="background-color: #E643DB;">
 	<div class="body">
-		<h3 align="center">${products.product_name}</h3>
-		<br>
 
-		<div id="image" style="float: right;">
-			<img src="<s:url value="/resources" />/images/p/${products.image}"
-				alt="image" width="230" height="220" /> <br> <br> <br>
-			<a id="${products.brand_code} " action="remoteCart"
-				onclick="jQuery.ajax({type:'POST', url:'/cart/home/remoteCart/AG0101001K',success:function(data,textStatus){addedCart();},error:function(XMLHttpRequest,textStatus,errorThrown){}});return false;"
-				href="/codebee/sales/remoteCart/1"> <img rel="#mies1"
-				src="<s:url value="/resources" />/images/cart.gif ">
-			</a>
-		</div>
+		<b>Review your Order before processing</b>
 
-		<div style="float: left">
-			<table style="float: left;">
+		<c:if test="${order != null }">
+			<table>
 				<tr>
-					<td class="bold">Description:</td>
-					<td>${products.description}</td>
-
+					<th>Product Name</th>
+					<th>Quantity</th>
+					<th>Total</th>
 				</tr>
 
-				<tr>
-					<td class="bold">Selling Price:</td>
-					<td>${products.price}</td>
+				<c:forEach items="${order.bag}" var="elm">
+					<tr>
+						<td>${elm.key.product_name }</td>
 
-				</tr>
-				<tr>
-					<td class="bold">Net Weight:</td>
-					<td>${products.net_weight}</td>
-				</tr>
-				<tr>
-					<td class="bold">Product Code:</td>
-					<td>${products.product_code}</td>
-				</tr>
-				<tr>
-					<td class="bold">Company:</td>
-					<td>${products.company}</td>
-				</tr>
-				<tr>
-					<td class="bold">Stock :</td>
-					<td>${product.total_stock_qty}</td>
+						<c:forEach items="${elm.value }" var="val">
+							<td>${val }</td>
+						</c:forEach>
 
-				</tr>
-
+					</tr>
+				</c:forEach>
+				
+				<tr></tr>
+				
+				<tr><td>Gross Total: </td><td>${order.total }</td></tr>
 			</table>
-		</div>
 
-	</div>
+		</c:if>
 
-
-
-
-
-	<div class="simple_overlay" id="mies1">
-		<!-- large image -->
-
-		<div class="cart">
-			<h2 align="center">Shopping Cart</h2>
-			<br> <br>
-			<form action="/cart/home/review" method="post"
-				id="review">
-				<table id="cart">
-
-
-
-				</table>
-				<br> <br> <a href='javascript:void(0)' class="classname"
-					id='order' onclick="order()">Place Order</a>
-			</form>
-
-			<script type="text/javascript">
-				function order() {
-					$('#review').submit();
-				}
-			</script>
-		</div>
-
-
-	</div>
 
 	</div>
 

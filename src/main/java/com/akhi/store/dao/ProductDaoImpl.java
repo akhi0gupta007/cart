@@ -277,4 +277,73 @@ public class ProductDaoImpl implements ProductDao {
 		}
 		return result;
 	}
+
+	@Override
+	public List<Products> getByCat(String cat, int offset, int max) {
+		Products result = null;
+		ResultSet rs;
+		Connection conn = null;
+		List<Products> products = new ArrayList<Products>();
+		try {
+			conn = dataSource.getConnection();
+
+			String sql = "SELECT PRODUCTS.COMPANY,PRODUCTS.PRODUCT_CODE,PRODUCTS.TYPE_OF_PRODUCT,PRODUCTS.PRODUCT_CATEGORY,PRODUCTS.PRODUCT_NAME,"
+					+ " PRODUCTS.PACKING_TYPE,PRODUCTS.NET_WEIGHT,ITEM_PRICES.ITEM_PRICE"
+					+ " FROM PRODUCTS"
+					+ " LEFT JOIN ITEM_PRICES "
+					+ " ON PRODUCTS.PRODUCT_CODE=ITEM_PRICES.ITEM_CODE"
+					+ " where TYPE_OF_PRODUCT=?"
+					+ " limit "
+					+ offset
+					+ ","
+					+ max + "";
+
+			log.info("Executing SQL " + sql);
+			PreparedStatement ps = conn.prepareStatement(sql);
+			ps.setString(1, cat);
+			rs = ps.executeQuery();
+			if (rs == null) {
+				log.warn("Nothing found");
+			} else {
+
+				try {
+					while (rs.next()) {
+						result = new Products(rs.getString("COMPANY"),
+								rs.getDouble("ITEM_PRICE"),
+								rs.getString("PRODUCT_CODE"),
+								rs.getString("TYPE_OF_PRODUCT"),
+								rs.getString("PRODUCT_CATEGORY"),
+								rs.getString("PACKING_TYPE"),
+								rs.getString("PRODUCT_NAME"),
+								rs.getDouble("NET_WEIGHT"));
+
+						String image = getByImageId(result.getProduct_code());
+
+						if (image != null) {
+							result.setImage(image);
+						}
+						products.add(result);
+					}
+
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+
+			}
+			ps.close();
+
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+
+		} finally {
+			if (conn != null) {
+				try {
+					conn.close();
+				} catch (SQLException e) {
+				}
+			}
+		}
+		return products;
+	}
 }

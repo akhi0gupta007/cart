@@ -61,13 +61,13 @@ public class OracleJDBC {
 					+ " FROM PRODUCTS"
 					+ " LEFT JOIN ITEM_PRICES "
 					+ " ON PRODUCTS.PRODUCT_CODE=ITEM_PRICES.ITEM_CODE"
-					+ " where PRODUCT_CODE=?";
+					+ " where TYPE_OF_PRODUCT=?";
 
 			System.out.println("Executing SQL " + sql);
 
 			try {
 				PreparedStatement ps = connection.prepareStatement(sql);
-				ps.setString(1, "AG0101001K");
+				ps.setString(1, "AG");
 				Statement stmt = connection.createStatement();
 				ResultSet rs0 = stmt.executeQuery("SELECT * FROM USERS");
 				// ps.setString(2, password);

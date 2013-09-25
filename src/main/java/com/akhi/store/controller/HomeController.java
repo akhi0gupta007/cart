@@ -2,8 +2,11 @@ package com.akhi.store.controller;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -21,6 +24,7 @@ import org.springframework.web.bind.support.SessionStatus;
 import org.apache.log4j.Logger;
 
 import com.akhi.store.dao.ProductDao;
+import com.akhi.store.general.Order;
 import com.akhi.store.general.Products;
 import com.akhi.store.general.User;
 import com.akhi.store.service.UserService;
@@ -28,6 +32,9 @@ import com.akhi.store.validator.UserValidator;
 
 /**
  * Handles requests for the application home page.
+ * 
+ * @author akhilesh
+ * 
  */
 @Controller
 @RequestMapping(value = { "/", "/home" })
@@ -92,25 +99,39 @@ public class HomeController {
 	}
 
 	@RequestMapping(value = { "/catalog" }, method = RequestMethod.GET)
-	public String dashboard(ModelMap model) {
+	public String dashboard(ModelMap model,
+			@RequestParam(value = "cat", defaultValue = "NAP") String cat) {
 		String result = "customer";
+		List<Products> products = null;
 		if (model.containsKey("customer")) {
 			User user = (User) model.get("customer");
 			if (user.getUserId() != null) {
 				log.warn("Dash board , session is present for " + user);
 				result = "success";
-				List<Products> products = productDao.getProducts(0, 5);
-				log.info("Recieved Products Listings " + products.size());
-				
-				Map<String,String> cats = productDao.getCats();
+
+				if (cat.equalsIgnoreCase("NAP") || cat == null) {
+					products = productDao.getProducts(0, 10);
+					if (products != null)
+						log.info("Recieved Products Listings without any cat"
+								+ products.size());
+				} else if (!cat.equalsIgnoreCase("NAP")) {
+					products = productDao.getByCat(cat, 0, 10);
+
+					if (products != null)
+						log.info("Recieved Products Listings with cat " + cat
+								+ " size : " + products.size());
+				} else {
+					log.error("Can not get product listing :(");
+				}
+
+				Map<String, String> cats = productDao.getCats();
 				log.info("Recieved Products Cats " + cats);
-				
 
 				if (products != null && products.size() > 0)
 					model.put("products", products);
 				else
 					log.error("Could Not get listing");
-				
+
 				if (cats != null && cats.size() > 0)
 					model.put("cats", cats);
 				else
@@ -132,6 +153,13 @@ public class HomeController {
 				result = "details";
 				Products product = productDao.getById(id);
 				log.info("Recieved Products Listings " + product);
+
+				Map<String, String> cats = productDao.getCats();
+
+				if (cats != null && cats.size() > 0)
+					model.put("cats", cats);
+				else
+					log.error("Could Not get cats");
 
 				if (product != null)
 					model.put("products", product);
@@ -245,7 +273,7 @@ public class HomeController {
 	@SuppressWarnings("unchecked")
 	@RequestMapping(value = { "/delete/{id}" }, method = RequestMethod.POST)
 	public @ResponseBody
-	List<String> delete(@PathVariable("id") String id,ModelMap model) {
+	List<String> delete(@PathVariable("id") String id, ModelMap model) {
 
 		log.info("delete from cart, id = " + id);
 		List<String> parent = new ArrayList<String>();
@@ -271,6 +299,59 @@ public class HomeController {
 		}
 		log.info("updateQuantity , parent " + parent);
 		return parent;
+	}
+
+	@SuppressWarnings("unchecked")
+	@RequestMapping(value = { "/review" }, method = RequestMethod.POST)
+	public String review(ModelMap model) {
+		String result = "customer";
+
+		if (model.containsKey("customer") && model.containsKey("cart")) {
+			User user = (User) model.get("customer");
+			Map<String, Integer> cart = (Map<String, Integer>) model
+					.get("cart");
+
+			if (user.getUserId() != null && cart.size() > 0) {
+				log.warn("cartHelper, session is present for " + user
+						+ " and cart is " + cart);
+				Order order = makeOrder(cart);
+				log.info("Order success : " + order);
+				model.addAttribute("order", order);
+				result = "review";
+
+			} else {
+				log.error("Could not prepare order:(");
+			}
+
+			Map<String, String> cats = productDao.getCats();
+
+			if (cats != null && cats.size() > 0)
+				model.put("cats", cats);
+			else
+				log.error("Could Not get cats");
+
+		}
+
+		return result;
+	}
+
+	private Order makeOrder(Map<String, Integer> set) {
+		Map<Products, TreeSet<Double>> bag = new HashMap<Products, TreeSet<Double>>();
+		double gross_total = 0;
+		for (String x : set.keySet()) {
+			Products product = productDao.getById(x);
+			if (product == null)
+				continue;
+			Integer quan = set.get(x);
+			Double total = quan * product.getPrice();
+			TreeSet<Double> value = new TreeSet<Double>();
+			value.add(new Double(quan));
+			value.add(total);
+			bag.put(product, value);
+			gross_total = gross_total + total;
+		}
+		Order order = new Order(bag, gross_total);
+		return order;
 	}
 
 	public static boolean there(Map<String, Integer> set, Object obj) {
