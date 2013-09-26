@@ -2,10 +2,8 @@ package com.akhi.store.controller;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.TreeSet;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,7 +52,7 @@ public class HomeController {
 	@Autowired
 	private UserValidator validator;
 
-	@RequestMapping(value = { "/", "/home" }, method = RequestMethod.GET)
+	@RequestMapping(value = { "/", "/home/login" }, method = RequestMethod.GET)
 	public String home(ModelMap model) {
 		log.info("HomeController home");
 		User user = new User();
@@ -62,7 +60,7 @@ public class HomeController {
 		return "customer";
 	}
 
-	@RequestMapping(value = { "/logout" }, method = RequestMethod.GET)
+	@RequestMapping(value = { "/home/logout" }, method = RequestMethod.GET)
 	public String logout(ModelMap model) {
 		log.info("logout");
 
@@ -98,7 +96,7 @@ public class HomeController {
 
 	}
 
-	@RequestMapping(value = { "/catalog" }, method = RequestMethod.GET)
+	@RequestMapping(value = { "/home/catalog" }, method = RequestMethod.GET)
 	public String dashboard(ModelMap model,
 			@RequestParam(value = "cat", defaultValue = "NAP") String cat) {
 		String result = "customer";
@@ -142,7 +140,7 @@ public class HomeController {
 		return result;
 	}
 
-	@RequestMapping(value = { "/details/{id}" }, method = RequestMethod.GET)
+	@RequestMapping(value = { "/home/details/{id}" }, method = RequestMethod.GET)
 	public String details(@PathVariable("id") String id, ModelMap model) {
 		String result = "customer";
 		log.info("details: Details for id " + id);
@@ -172,7 +170,7 @@ public class HomeController {
 	}
 
 	@SuppressWarnings("unchecked")
-	@RequestMapping(value = { "/remoteCart/{id}" })
+	@RequestMapping(value = { "/home/remoteCart/{id}" })
 	public String remoteCart(@PathVariable("id") String id, ModelMap model) {
 		log.info("remoteCart for id " + id);
 		if (model.containsKey("customer") && model.containsKey("cart")) {
@@ -199,7 +197,7 @@ public class HomeController {
 	}
 
 	@SuppressWarnings("unchecked")
-	@RequestMapping(value = { "/cartHelper" }, method = RequestMethod.GET)
+	@RequestMapping(value = { "/home/cartHelper" }, method = RequestMethod.GET)
 	public @ResponseBody
 	List<List<String>> cartHelper(ModelMap model) {
 
@@ -238,7 +236,7 @@ public class HomeController {
 	}
 
 	@SuppressWarnings("unchecked")
-	@RequestMapping(value = { "/updateQuantity/{id}" }, method = RequestMethod.POST)
+	@RequestMapping(value = { "/home/updateQuantity/{id}" }, method = RequestMethod.POST)
 	public @ResponseBody
 	List<String> updateQuantity(@PathVariable("id") String id,
 			@RequestParam(value = "quan", defaultValue = "1") String quan,
@@ -271,7 +269,7 @@ public class HomeController {
 	}
 
 	@SuppressWarnings("unchecked")
-	@RequestMapping(value = { "/delete/{id}" }, method = RequestMethod.POST)
+	@RequestMapping(value = { "/home/delete/{id}" }, method = RequestMethod.POST)
 	public @ResponseBody
 	List<String> delete(@PathVariable("id") String id, ModelMap model) {
 
@@ -302,7 +300,7 @@ public class HomeController {
 	}
 
 	@SuppressWarnings("unchecked")
-	@RequestMapping(value = { "/review" }, method = RequestMethod.POST)
+	@RequestMapping(value = { "/home/review" }, method = RequestMethod.POST)
 	public String review(ModelMap model) {
 		String result = "customer";
 
