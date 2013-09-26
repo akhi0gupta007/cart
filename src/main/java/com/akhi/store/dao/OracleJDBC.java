@@ -60,14 +60,14 @@ public class OracleJDBC {
 					+ " PRODUCTS.PACKING_TYPE,PRODUCTS.NET_WEIGHT,ITEM_PRICES.ITEM_PRICE"
 					+ " FROM PRODUCTS"
 					+ " LEFT JOIN ITEM_PRICES "
-					+ " ON PRODUCTS.PRODUCT_CODE=ITEM_PRICES.ITEM_CODE"
-					+ " where TYPE_OF_PRODUCT=?";
+					+ " ON PRODUCTS.PRODUCT_CODE=ITEM_PRICES.ITEM_CODE";
+					//+ " where TYPE_OF_PRODUCT=?";
 
 			System.out.println("Executing SQL " + sql);
 
 			try {
 				PreparedStatement ps = connection.prepareStatement(sql);
-				ps.setString(1, "AG");
+			//	ps.setString(1, "AG");
 				Statement stmt = connection.createStatement();
 				ResultSet rs0 = stmt.executeQuery("SELECT * FROM USERS");
 				// ps.setString(2, password);

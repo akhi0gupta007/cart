@@ -126,7 +126,7 @@ td.adjacent {
 			<img src="<s:url value="/resources" />/images/p/${products.image}"
 				alt="image" width="230" height="220" /> <br> <br> <br>
 			<a id="${products.brand_code} " action="remoteCart"
-				onclick="jQuery.ajax({type:'POST', url:'/cart/home/remoteCart/AG0101001K',success:function(data,textStatus){addedCart();},error:function(XMLHttpRequest,textStatus,errorThrown){}});return false;"
+				onclick="jQuery.ajax({type:'POST', url:'/cart/home/remoteCart/${products.product_code}',success:function(data,textStatus){addedCart();},error:function(XMLHttpRequest,textStatus,errorThrown){}});return false;"
 				href="/codebee/sales/remoteCart/1"> <img rel="#mies1"
 				src="<s:url value="/resources" />/images/cart.gif ">
 			</a>

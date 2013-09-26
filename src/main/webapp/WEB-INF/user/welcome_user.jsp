@@ -21,7 +21,12 @@
 
 <script type="text/javascript"
 	src="<s:url value="/resources" />/js/overlay.js"></script>
-
+<script type="text/javascript">
+	$(document).ready(function() {
+		$("img[rel]").overlay();
+		path = "${request.contextPath}"
+	});
+</script>
 <style type="text/css">
 .errors {
 	background-color: #FFCCCC;
@@ -107,6 +112,71 @@ th.specalt {
 		no-repeat;
 	font: bold 10px "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
 	color: #797268;
+}
+
+/* the overlayed element */
+.simple_overlay {
+	/* must be initially hidden */
+	display: none;
+	/* place overlay on top of other elements */
+	z-index: 10000;
+	/* styling */
+	background-color: #ffffff;
+	width: 675px;
+	min-height: 500px;
+	border: 1px solid #666;
+	/* CSS3 styling for latest browsers */
+	-moz-box-shadow: 0 0 90px 5px #000;
+	-webkit-box-shadow: 0 0 90px #000;
+}
+
+/* close button positioned on upper right corner */
+.simple_overlay .close {
+	background-image: url(<   s :   url value =   "/resources"/ >/ images/ close.png);
+	position: absolute;
+	right: -15px;
+	top: -15px;
+	cursor: pointer;
+	height: 35px;
+	width: 35px;
+}
+/* styling for elements inside overlay */
+.cart {
+	top: 15px;
+	padding: 20px;
+	font-size: 11px;
+	color: #331921;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.cart p {
+	border-color: blue;
+	border-width: thin;
+	border-style: dashed;
+}
+
+.cart h2 {
+	color: #4f574f;
+	font-size: 20px;
+}
+
+.cart table {
+	border: 1px;
+}
+
+.cart td {
+	text-align: center;
+	padding: 5px;
+}
+
+.cart th {
+	font-weight: bold;
+	background-color: #9dafb8;
+}
+
+.cart items {
+	
 }
 </style>
 <script type="text/javascript">
@@ -267,9 +337,8 @@ th.specalt {
 
 
 					</table>
-					<br>
-					<br> <a href='javascript:void(0)' class="classname" id='order'
-						onclick="order()">Place Order</a>
+					<br> <br> <a href='javascript:void(0)' class="classname"
+						id='order' onclick="order()">Place Order</a>
 				</form>
 
 				<script type="text/javascript">

@@ -6,7 +6,7 @@
 		<c:when test="${sessionScope.customer.userId != null}">
 	You are :<b> ${sessionScope.customer.userId} </b>|	<b><a href="/cart/home/logout">Logout</a></b><br />
 		
-			  <b>My Cart</b> <img src="<s:url value="/resources" />/images/cart.jpg" rel="#mies1" width="50" height="50"/>
+			  <b>See your cart > </b> <img src="<s:url value="/resources" />/images/cart.jpg" rel="#mies1" width="50" height="50"/>
 		</c:when>
 		<c:otherwise>
 			<a href="">Login</a>
