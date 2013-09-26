@@ -50,10 +50,11 @@ td.adjacent {
 
 /* close button positioned on upper right corner */
 .simple_overlay .close {
-	background-image: url(<                             s :                             url
-		value =     
+	background-image: url(<                                       s :  
+		                               
+		    url value =          
 		               
-		       "/resources"/ >/ images/ close.png);
+		            "/resources"/ >/ images/ close.png);
 	position: absolute;
 	right: -15px;
 	top: -15px;
@@ -136,12 +137,25 @@ td.adjacent {
 
 					</tr>
 				</c:forEach>
-				
-				<tr></tr>
-				
-				<tr><td>Gross Total: </td><td>${order.total }</td></tr>
-			</table>
 
+				<tr></tr>
+
+				<tr>
+					<td>Gross Total:</td>
+					<td>${order.total }</td>
+				</tr>
+				<tr>
+					<td></td>
+					<td></td>
+				</tr>
+			</table>
+			<p align="right">
+				<img src="<s:url value="/resources" />/images/order.png" alt="image"
+					width="200" height="35" />
+
+			</p>
+			<br />
+			<br />
 		</c:if>
 
 

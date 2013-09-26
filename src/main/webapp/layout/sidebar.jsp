@@ -6,7 +6,7 @@
 <style type="text/css">
 .sidebarmenu ul {
 	margin: 0;
-	padding: 0;
+	padding: 50;
 	list-style-type: none;
 	font: bold 13px Verdana;
 	width: 180px; /* Main Menu Item widths */
@@ -90,40 +90,24 @@
 
 				</ul>
 			</div>
-			<!--
- <p><strong>LATEST TWEETS</strong></p>
-<script charset="utf-8" src="http://widgets.twimg.com/j/2/widget.js"></script>
-<script>
-new TWTR.Widget({
-  version: 2,
-  type: 'profile',
-  rpp: 4,
-  interval: 30000,
-  width: 250,
-  height: 300,
-  theme: {
-    shell: {
-      background: '#333333',
-      color: '#ffffff'
-    },
-    tweets: {
-      background: 'white',
-      color: 'grey',
-      links: 'black'
-    }
-  },
-  features: {
-    scrollbar: false,
-    loop: false,
-    live: false,
-    behavior: 'all'
-  }
-}).render().setUser('gupta007').start();
 
-</script>
- -->
-			<br> <br>
-
+			<p>
+	<%-- 			<strong>LATEST TWEETS</strong>
+			</p>
+			<a class="twitter-timeline" href="https://twitter.com/twitterapi"
+				data-widget-id="YOUR-WIDGET-ID-HERE">Tweets by @twitterapi</a> <br>
+			<br>
+			<script>
+				!function(d, s, id) {
+					var js, fjs = d.getElementsByTagName(s)[0];
+					if (!d.getElementById(id)) {
+						js = d.createElement(s);
+						js.id = id;
+						js.src = "//platform.twitter.com/widgets.js";
+						fjs.parentNode.insertBefore(js, fjs);
+					}
+				}(document, "script", "twitter-wjs");
+			</script> --%>
 
 
 		</div>
